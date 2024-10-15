@@ -1,13 +1,5 @@
 {
-  "name": "trust-chain-quantathon-2.0",
-  "version": "1.0.0",
-  "description": "A project for the Trust Chain Quantathon 2.0 focused on social media posts using blockchain.",
-  "main": "app.js",
-  "type": "module",
-  "scripts": {
-    "start": "node app.js"
-  },
   "dependencies": {
-    "web3": "^4.13.0"
+    "@openzeppelin/contracts": "^5.0.2"
   }
 }
