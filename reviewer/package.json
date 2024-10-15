@@ -8,6 +8,7 @@
     "start": "node app.js"
   },
   "dependencies": {
+    "trust-chain-quantathon-2.0": "file:",
     "web3": "^4.13.0"
   }
 }
