@@ -13,13 +13,50 @@ import postsAtom from "../atoms/postsAtom";
 
 const PostPage = () => {
 	const { user, loading } = useGetUserProfile();
-
+	const [posts, setPosts] = useRecoilState(postsAtom);
+	const showToast = useShowToast();
+	const { pid } = useParams();
 	const currentUser = useRecoilValue(userAtom);
+	const navigate = useNavigate();
 
 	const currentPost = posts[0];
 
-	
+	useEffect(() => {
+		const getPost = async () => {
+			setPosts([]);
+			try {
+				const res = await fetch(`/api/posts/${pid}`);
+				const data = await res.json();
+				if (data.error) {
+					showToast("Error", data.error, "error");
+					return;
+				}
+				setPosts([data]);
+			} catch (error) {
+				showToast("Error", error.message, "error");
+			}
+		};
+		getPost();
+	}, [showToast, pid, setPosts]);
 
+	const handleDeletePost = async () => {
+		try {
+			if (!window.confirm("Are you sure you want to delete this post?")) return;
+
+			const res = await fetch(`/api/posts/${currentPost._id}`, {
+				method: "DELETE",
+			});
+			const data = await res.json();
+			if (data.error) {
+				showToast("Error", data.error, "error");
+				return;
+			}
+			showToast("Success", "Post deleted", "success");
+			navigate(`/${user.username}`);
+		} catch (error) {
+			showToast("Error", error.message, "error");
+		}
+	};
 
 	if (!user && loading) {
 		return (
