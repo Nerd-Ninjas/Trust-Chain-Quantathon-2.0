@@ -120,7 +120,6 @@ const getUserPosts = async (req, res) => {
 		res.status(500).json({ error: error.message });
 	}
 };
-
 const likeUnlikePost = async (req, res) => {
 	try {
 		const { id: postId } = req.params;
@@ -173,3 +172,4 @@ const replyToPost = async (req, res) => {
 };
 
 export { createPost, deletePost,getPost, getFeedPosts, getUserPosts, likeUnlikePost, replyToPost };
+

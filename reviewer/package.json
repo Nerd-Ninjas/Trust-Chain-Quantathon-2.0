@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "trust-chain-quantathon-2.0": "file:",
     "@openzeppelin/contracts": "^5.0.2"
   }
 }
