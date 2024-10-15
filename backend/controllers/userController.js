@@ -12,11 +12,9 @@ const getUserProfile = async (req, res) => {
 	try {
 		let user;
 
-		// query for userId
 		if (mongoose.Types.ObjectId.isValid(query)) {
 			user = await User.findOne({ _id: query }).select("-password").select("-updatedAt");
 		} else {
-			// query for username
 			user = await User.findOne({ username: query }).select("-password").select("-updatedAt");
 		}
 
@@ -122,11 +120,14 @@ const followUnFollowUser = async (req, res) => {
 		const isFollowing = currentUser.following.includes(id);
 
 		if (isFollowing) {
-			
+			// Unfollow user
 			await User.findByIdAndUpdate(id, { $pull: { followers: req.user._id } });
+			await User.findByIdAndUpdate(req.user._id, { $pull: { following: id } });
 			res.status(200).json({ message: "User unfollowed successfully" });
 		} else {
+			// Follow user
 			await User.findByIdAndUpdate(id, { $push: { followers: req.user._id } });
+			await User.findByIdAndUpdate(req.user._id, { $push: { following: id } });
 			res.status(200).json({ message: "User followed successfully" });
 		}
 	} catch (err) {
@@ -220,7 +221,6 @@ const getSuggestedUsers = async (req, res) => {
 };
 
 
-
 export {
 	signupUser,
 	loginUser,
@@ -230,3 +230,4 @@ export {
 	getUserProfile,
 	getSuggestedUsers,
 };
+
