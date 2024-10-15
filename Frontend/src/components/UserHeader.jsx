@@ -11,7 +11,7 @@ import useFollowUnfollow from "../hooks/useFollowUnfollow";
 
 const UserHeader = ({ user }) => {
 	const toast = useToast();
-	const currentUser = useRecoilValue(userAtom); // logged in user
+	const currentUser = useRecoilValue(userAtom); 
 	const { handleFollowUnfollow, following, updating } = useFollowUnfollow(user);
 
 	const copyURL = () => {
@@ -88,8 +88,8 @@ const UserHeader = ({ user }) => {
 								<CgMoreO size={24} cursor={"pointer"} />
 							</MenuButton>
 							<Portal>
-								<MenuList bg={"gray.dark"}>
-									<MenuItem bg={"gray.dark"} onClick={copyURL}>
+								<MenuList bg={"gray.white"}>
+									<MenuItem bg={"gray.white"} onClick={copyURL}>
 										Copy link
 									</MenuItem>
 								</MenuList>
@@ -101,11 +101,11 @@ const UserHeader = ({ user }) => {
 
 			<Flex w={"full"}>
 				<Flex flex={1} borderBottom={"1.5px solid white"} justifyContent={"center"} pb='3' cursor={"pointer"}>
-					<Text fontWeight={"bold"}> Threads</Text>
+					<Text fontWeight={"bold"}> Posts</Text>
 				</Flex>
 				<Flex
 					flex={1}
-					borderBottom={"1px solid gray"}
+					borderBottom={"1px solid green"}
 					justifyContent={"center"}
 					color={"gray.light"}
 					pb='3'

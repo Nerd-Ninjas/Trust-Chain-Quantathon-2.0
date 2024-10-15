@@ -13,7 +13,7 @@ import { SocketContextProvider } from "./context/SocketContext.jsx";
 const styles = {
 	global: (props) => ({
 		body: {
-			color: mode("gray.800", "whiteAlpha.900")(props),
+			color: mode("gray.800", "#101010")(props),
 			bg: mode("gray.100", "#101010")(props),
 		},
 	}),
@@ -26,7 +26,7 @@ const config = {
 
 const colors = {
 	gray: {
-		light: "#616161",
+		light: "#1e1e1e",
 		dark: "#1e1e1e",
 	},
 };
@@ -34,7 +34,6 @@ const colors = {
 const theme = extendTheme({ config, styles, colors });
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-	// React.StrictMode renders every component twice (in the initial render), only in development.
 	<React.StrictMode>
 		<RecoilRoot>
 			<BrowserRouter>

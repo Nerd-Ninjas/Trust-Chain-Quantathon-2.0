@@ -1,4 +1,6 @@
-import { Button, Flex, Image, Link, useColorMode } from "@chakra-ui/react";
+/* eslint-disable no-unused-vars */
+import React from 'react';
+import { Button, Image, Link, Flex } from "@chakra-ui/react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import userAtom from "../atoms/userAtom";
 import { AiFillHome } from "react-icons/ai";
@@ -10,58 +12,69 @@ import authScreenAtom from "../atoms/authAtom";
 import { BsFillChatQuoteFill } from "react-icons/bs";
 import { MdOutlineSettings } from "react-icons/md";
 import img from "../assets/NERD_NINJAS.png";
+import './css/Header.css'; // Import CSS file
 
 const Header = () => {
-	const {  toggleColorMode } = useColorMode();
-	const user = useRecoilValue(userAtom);
-	const logout = useLogout();
-	const setAuthScreen = useSetRecoilState(authScreenAtom);
+  const user = useRecoilValue(userAtom);
+  const logout = useLogout();
+  const setAuthScreen = useSetRecoilState(authScreenAtom);
 
-	return (
-		<Flex justifyContent={"space-between"} mt={6} mb='12'>
-			{user && (
-				<Link as={RouterLink} to='/'>
-					<AiFillHome size={24} />
-				</Link>
-			)}
-			{!user && (
-				<Link as={RouterLink} to={"/auth"} onClick={() => setAuthScreen("login")}>
-					Login
-				</Link>
-			)}
+  return (
+    <Flex className="header-container">
+      {user && (
+        <Link as={RouterLink} to="/">
+          <AiFillHome className="icon" />
+        </Link>
+      )}
+      {!user && (
+        <Link
+          className="header-link"
+          as={RouterLink}
+          to="/auth"
+          onClick={() => setAuthScreen("login")}
+        >
+          Login
+        </Link>
+      )}
 
-			<Image
-      cursor="pointer"
-      alt="logo"
-      w={6}
-      src={img}
-      onClick={toggleColorMode}
-    />
+      <Image
+        className="header-logo"
+        alt="logo"
+        src={img}
+        onClick={() => {
+          /* toggle theme color functionality */
+        }}
+      />
 
-			{user && (
-				<Flex alignItems={"center"} gap={4}>
-					<Link as={RouterLink} to={`/${user.username}`}>
-						<RxAvatar size={24} />
-					</Link>
-					<Link as={RouterLink} to={`/chat`}>
-						<BsFillChatQuoteFill size={20} />
-					</Link>
-					<Link as={RouterLink} to={`/settings`}>
-						<MdOutlineSettings size={20} />
-					</Link>
-					<Button size={"xs"} onClick={logout}>
-						<FiLogOut size={20} />
-					</Button>
-				</Flex>
-			)}
+      {user && (
+        <Flex className="header-buttons">
+          <Link as={RouterLink} to={`/${user.username}`}>
+            <RxAvatar className="icon" />
+          </Link>
+          <Link as={RouterLink} to="/chat">
+            <BsFillChatQuoteFill className="icon" />
+          </Link>
+          <Link as={RouterLink} to="/settings">
+            <MdOutlineSettings className="icon" />
+          </Link>
+          <Button className="logout-button" onClick={logout}>
+            <FiLogOut className="icon" />
+          </Button>
+        </Flex>
+      )}
 
-			{!user && (
-				<Link as={RouterLink} to={"/auth"} onClick={() => setAuthScreen("signup")}>
-					Sign up
-				</Link>
-			)}
-		</Flex>
-	);
+      {!user && (
+        <Link
+          className="header-link"
+          as={RouterLink}
+          to="/auth"
+          onClick={() => setAuthScreen("signup")}
+        >
+          Sign up
+        </Link>
+      )}
+    </Flex>
+  );
 };
 
 export default Header;

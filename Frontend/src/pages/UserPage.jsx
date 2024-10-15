@@ -38,7 +38,7 @@ const UserPage = () => {
 	if (!user && loading) {
 		return (
 			<Flex justifyContent={"center"}>
-				<Spinner size={"xl"} />
+				<Spinner size={"xxl"} />
 			</Flex>
 		);
 	}
@@ -51,8 +51,8 @@ const UserPage = () => {
 
 			{!fetchingPosts && posts.length === 0 && <h1>User has not posts.</h1>}
 			{fetchingPosts && (
-				<Flex justifyContent={"center"} my={12}>
-					<Spinner size={"xl"} />
+				<Flex justifyContent={"center"} my={19}>
+					<Spinner size={"xxl"} />
 				</Flex>
 			)}
 
