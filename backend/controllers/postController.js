@@ -92,9 +92,14 @@ const getFeedPosts = async (req, res) => {
 	try {
 		const userId = req.user._id;
 		const user = await User.findById(userId);
+<<<<<<< Updated upstream
 		if (!user) {
 			return res.status(404).json({ error: "User not found" });
 		}
+=======
+	
+
+>>>>>>> Stashed changes
 		const following = user.following;
 
 		const feedPosts = await Post.find({ postedBy: { $in: following } }).sort({ createdAt: -1 });
@@ -105,6 +110,7 @@ const getFeedPosts = async (req, res) => {
 	}
 };
 
+<<<<<<< Updated upstream
 const getUserPosts = async (req, res) => {
 	const { username } = req.params;
 	try {
@@ -173,3 +179,6 @@ const replyToPost = async (req, res) => {
 };
 
 export { createPost, deletePost,getPost, getFeedPosts, getUserPosts, likeUnlikePost, replyToPost };
+=======
+export { createPost, deletePost,getPost, getFeedPosts, getUserPosts };
+>>>>>>> Stashed changes
