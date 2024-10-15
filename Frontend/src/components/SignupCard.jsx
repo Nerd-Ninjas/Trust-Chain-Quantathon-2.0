@@ -18,6 +18,8 @@ import { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useSetRecoilState } from "recoil";
 import authScreenAtom from "../atoms/authAtom";
+import useShowToast from "../hooks/useShowToast";
+import userAtom from "../atoms/userAtom";
 
 export default function SignupCard() {
 	const [showPassword, setShowPassword] = useState(false);
@@ -29,6 +31,31 @@ export default function SignupCard() {
 		password: "",
 	});
 
+	const showToast = useShowToast();
+	const setUser = useSetRecoilState(userAtom);
+
+	const handleSignup = async () => {
+		try {
+			const res = await fetch("/api/users/signup", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(inputs),
+			});
+			const data = await res.json();
+
+			if (data.error) {
+				showToast("Error", data.error, "error");
+				return;
+			}
+
+			localStorage.setItem("user-threads", JSON.stringify(data));
+			setUser(data);
+		} catch (error) {
+			showToast("Error", error, "error");
+		}
+	};
 
 	return (
 		<Flex align={"center"} justify={"center"}>
@@ -97,7 +124,7 @@ export default function SignupCard() {
 								_hover={{
 									bg: useColorModeValue("gray.700", "gray.800"),
 								}}
-							
+								onClick={handleSignup}
 							>
 								Sign up
 							</Button>
