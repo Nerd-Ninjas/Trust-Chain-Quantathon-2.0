@@ -119,7 +119,16 @@ const followUnFollowUser = async (req, res) => {
 
 		if (!userToModify || !currentUser) return res.status(400).json({ error: "User not found" });
 
-	
+		const isFollowing = currentUser.following.includes(id);
+
+		if (isFollowing) {
+			
+			await User.findByIdAndUpdate(id, { $pull: { followers: req.user._id } });
+			res.status(200).json({ message: "User unfollowed successfully" });
+		} else {
+			await User.findByIdAndUpdate(id, { $push: { followers: req.user._id } });
+			res.status(200).json({ message: "User followed successfully" });
+		}
 	} catch (err) {
 		res.status(500).json({ error: err.message });
 		console.log("Error in followUnFollowUser: ", err.message);
@@ -143,8 +152,18 @@ const updateUser = async (req, res) => {
 			const hashedPassword = await bcrypt.hash(password, salt);
 			user.password = hashedPassword;
 		}
-
-	
+     
+		//  profile pic update
+		if (profilePic) {
+			if (user.profilePic) {
+				await cloudinary.uploader.destroy(user.profilePic.split("/").pop().split(".")[0]);
+			}
+            // cloudinary use to save the files
+			const uploadedResponse = await cloudinary.uploader.upload(profilePic);
+			profilePic = uploadedResponse.secure_url;
+		}
+        
+		// condtions to save
 		user.name = name || user.name;
 		user.email = email || user.email;
 		user.username = username || user.username;
@@ -164,7 +183,6 @@ const updateUser = async (req, res) => {
 			{ arrayFilters: [{ "reply.userId": userId }] }
 		);
 
-		// password should be null in response
 		user.password = null;
 
 		res.status(200).json(user);
@@ -200,6 +218,7 @@ const getSuggestedUsers = async (req, res) => {
 		res.status(500).json({ error: error.message });
 	}
 };
+
 
 
 export {
