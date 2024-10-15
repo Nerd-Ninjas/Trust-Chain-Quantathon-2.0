@@ -13,7 +13,7 @@ import { SocketContextProvider } from "./context/SocketContext.jsx";
 const styles = {
 	global: (props) => ({
 		body: {
-			color: mode("gray.800", "#101010")(props),
+			color: mode("gray.800", "whiteAlpha.900")(props),
 			bg: mode("gray.100", "#101010")(props),
 		},
 	}),
@@ -26,7 +26,7 @@ const config = {
 
 const colors = {
 	gray: {
-		light: "#1e1e1e",
+		light: "#616161",
 		dark: "#1e1e1e",
 	},
 };

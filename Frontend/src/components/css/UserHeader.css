@@ -29,13 +29,13 @@
   
   .user-header-bio {
     font-size: 16px;
-    color: #555; /* Darker gray for bio */
+    color: #555; 
   }
   
   .user-header-button {
     font-size: 14px;
     padding: 8px 12px;
-    background-color: #4CAF50; /* Green background */
+    background-color: #4CAF50;
     color: white;
     border: none;
     border-radius: 4px;
@@ -44,13 +44,13 @@
   }
   
   .user-header-button:hover {
-    background-color: #45a049; /* Darker green on hover */
+    background-color: #45a049; 
   }
   
   .user-header-followers {
     display: flex;
     align-items: center;
-    color: #aaa; /* Light gray */
+    color: #aaa;
   }
   
   .user-header-followers-count {
