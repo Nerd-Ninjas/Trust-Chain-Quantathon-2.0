@@ -216,7 +216,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ![Snapshot 3](./snapshots/Social%20media/WhatsApp%20Image%202024-10-16%20at%2009.06.24_8d4713f1.jpg)
 ![Snapshot 4](./snapshots/Social%20media/WhatsApp%20Image%202024-10-16%20at%2009.06.25_7cdae8c2.jpg)
 ![Snapshot 5](./snapshots/Social%20media/WhatsApp%20Image%202024-10-16%20at%2009.08.47_f78fe906.jpg)
-```
+
 
 
 
@@ -247,8 +247,9 @@ Here’s a "Getting Started" section tailored for the **Image_Classification_mod
    source env/bin/activate
 
    # Install required libraries
-   ```bash
+  
    pip install tensorflow keras numpy matplotlib
+
    ```
 
 4. **Run the Jupyter Notebook:**
