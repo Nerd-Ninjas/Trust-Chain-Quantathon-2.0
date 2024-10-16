@@ -247,8 +247,9 @@ Here’s a "Getting Started" section tailored for the **Image_Classification_mod
    source env/bin/activate
 
    # Install required libraries
-   ```bash
+  
    pip install tensorflow keras numpy matplotlib
+
    ```
 
 4. **Run the Jupyter Notebook:**
