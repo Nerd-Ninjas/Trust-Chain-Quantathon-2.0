@@ -15,7 +15,8 @@ import { useRecoilState } from "recoil";
 import userAtom from "../atoms/userAtom";
 import usePreviewImg from "../hooks/usePreviewImg";
 import useShowToast from "../hooks/useShowToast";
-import { Link as RouterLink } from "react-router-dom"; 
+import { Link as RouterLink } from "react-router-dom";
+
 
 export default function UpdateProfilePage() {
 	const [user, setUser] = useRecoilState(userAtom);
@@ -138,10 +139,19 @@ export default function UpdateProfilePage() {
 						/>
 					</FormControl>
 					<Stack spacing={6} direction={["column", "row"]}>
-					<Button as={RouterLink} to={`/${user.username}`} bg={"red.400"} color={"white"} w="full" _hover={{ bg: "red.500" }}>
+					<Button
+  as={RouterLink}
+  to={`/${user.username}`}
+  bg={"red.400"}
+  color={"white"}
+  w="full"
+  _hover={{
+    bg: "red.500",
+    cursor: "pointer",
+  }}
+>
   Cancel
 </Button>
-
 						<Button
 							bg={"green.400"}
 							color={"white"}

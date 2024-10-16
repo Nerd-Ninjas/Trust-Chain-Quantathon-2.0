@@ -8,7 +8,6 @@ import { useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
 import { Link as RouterLink } from "react-router-dom";
 import useFollowUnfollow from "../hooks/useFollowUnfollow";
-import "./css/UserHeader.css"
 
 const UserHeader = ({ user }) => {
 	const toast = useToast();
@@ -29,102 +28,94 @@ const UserHeader = ({ user }) => {
 	};
 
 	return (
-		<VStack
-		gap={4}
-		alignItems={"start"}
-		p={4}
-		borderWidth={1}
-		borderRadius="md"
-		boxShadow="md"
-		bg="white"
-		w="full"
-	>
-		<Flex justifyContent={"space-between"} w={"full"}>
-			<Box>
-				<Text fontSize={"2xl"} fontWeight={"bold"}>
-					{user.name}
-				</Text>
-				<Flex gap={2} alignItems={"center"}>
-					<Text fontSize={"sm"}>{user.username}</Text>
-				</Flex>
-			</Box>
-			<Box>
-				{user.profilePic ? (
-					<Avatar name={user.name} src={user.profilePic} size={{ base: "md", md: "xl" }} />
-				) : (
-					<Avatar name={user.name} src="https://bit.ly/broken-link" size={{ base: "md", md: "xl" }} />
-				)}
-			</Box>
-		</Flex>
-
-		<Text>{user.bio}</Text>
-
-		{currentUser?._id === user._id ? (
-			<Link as={RouterLink} to="/update">
-				<Button
-					style={{
-						fontSize: "14px",
-						padding: "8px 12px",
-						backgroundColor: "#4CAF50",
-						color: "white",
-						border: "none",
-						borderRadius: "4px",
-						cursor: "pointer",
-						transition: "background-color 0.3s ease",
-					}}
-				>
-					Update Profile
-				</Button>
-			</Link>
-		) : (
-			<Button size={"sm"} onClick={handleFollowUnfollow} isLoading={updating}>
-				{following ? "Unfollow" : "Follow"}
-			</Button>
-		)}
-
-		<Flex w={"full"} justifyContent={"space-between"}>
-			<Flex gap={2} alignItems={"center"}>
-				<Text color={"gray.light"}>{user.followers.length} followers</Text>
-				<Box w='1' h='1' bg={"gray.light"} borderRadius={"full"}></Box>
-			</Flex>
-			<Flex>
-				<Box className='icon-container'>
-					<Menu>
-						<MenuButton>
-							<CgMoreO size={24} cursor={"pointer"} />
-						</MenuButton>
-						<Portal>
-							<MenuList bg={"#4CAF50"}>
-								<MenuItem bg={"#4CAF50"} _hover={{ bg: "#3e8e41", color: "white" }} onClick={copyURL}>
-									Copy link
-								</MenuItem>
-							</MenuList>
-						</Portal>
-					</Menu>
+		<VStack gap={4} alignItems={"start"}>
+			<Flex justifyContent={"space-between"} w={"full"}>
+				<Box>
+					<Text fontSize={"2xl"} fontWeight={"bold"}>
+						{user.name}
+					</Text>
+					<Flex gap={2} alignItems={"center"}>
+						<Text fontSize={"sm"}>{user.username}</Text>
+						
+					</Flex>
+				</Box>
+				<Box>
+					{user.profilePic && (
+						<Avatar
+							name={user.name}
+							src={user.profilePic}
+							size={{
+								base: "md",
+								md: "xl",
+							}}
+						/>
+					)}
+					{!user.profilePic && (
+						<Avatar
+							name={user.name}
+							src='https://bit.ly/broken-link'
+							size={{
+								base: "md",
+								md: "xl",
+							}}
+						/>
+					)}
 				</Box>
 			</Flex>
-		</Flex>
 
-		{/* Tab Section */}
-		<Flex w={"full"}>
-			<Flex flex={1} borderBottom={"1.5px solid white"} justifyContent={"center"} pb='3' cursor={"pointer"}>
-				<Text fontWeight={"bold"}> Posts</Text>
+			<Text>{user.bio}</Text>
+
+			{currentUser?._id === user._id && (
+				<Link as={RouterLink} to='/update'>
+					<Button size={"sm"}>Update Profile</Button>
+				</Link>
+			)}
+			{currentUser?._id !== user._id && (
+				<Button size={"sm"} onClick={handleFollowUnfollow} isLoading={updating}>
+					{following ? "Unfollow" : "Follow"}
+				</Button>
+			)}
+			<Flex w={"full"} justifyContent={"space-between"}>
+				<Flex gap={2} alignItems={"center"}>
+					<Text color={"gray.light"}>{user.followers.length} followers</Text>
+					<Box w='1' h='1' bg={"gray.light"} borderRadius={"full"}></Box>
+				</Flex>
+				<Flex>
+				
+					<Box className='icon-container'>
+						<Menu>
+							<MenuButton>
+								<CgMoreO size={24} cursor={"pointer"} />
+							</MenuButton>
+							<Portal>
+								<MenuList bg={"gray.dark"}>
+									<MenuItem bg={"gray.dark"} onClick={copyURL}>
+										Copy link
+									</MenuItem>
+								</MenuList>
+							</Portal>
+						</Menu>
+					</Box>
+				</Flex>
 			</Flex>
-			<Flex
-				flex={1}
-				borderBottom={"1px solid gray"}
-				justifyContent={"center"}
-				color={"gray.light"}
-				pb='3'
-				cursor={"pointer"}
-			>
-				<Text fontWeight={"bold"}> Replies</Text>
+
+			<Flex w={"full"}>
+				<Flex flex={1} borderBottom={"1.5px solid white"} justifyContent={"center"} pb='3' cursor={"pointer"}>
+					<Text fontWeight={"bold"}> Threads</Text>
+				</Flex>
+				<Flex
+					flex={1}
+					borderBottom={"1px solid gray"}
+					justifyContent={"center"}
+					color={"gray.light"}
+					pb='3'
+					cursor={"pointer"}
+				>
+					<Text fontWeight={"bold"}> Replies</Text>
+				</Flex>
 			</Flex>
-		</Flex>
-	</VStack>
-);
+		</VStack>
+	);
 };
 
 export default UserHeader;
-
-
