@@ -42,9 +42,12 @@ Working on this project provided us with valuable experience in [describe what y
 ## Getting Started
 To run this project locally, follow these steps:
 
+
+
+
 # Social Media
 
------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
 
 ## Introduction
 *Trust Chain Quantathon 2.0* is a decentralized application built by the *Nerd Ninjas* team for the Quantathon competition. The project integrates blockchain technologies, a responsive frontend, and a secure backend to provide a full-stack solution that emphasizes transparency, decentralization, and security.
@@ -84,15 +87,15 @@ You need to have the following installed on your local development environment:
 
 1. *Clone the repository*:
 
-   bash
+   ```bash
    git clone https://github.com/Nerd-Ninjas/Trust-Chain-Quantathon-2.0.git
-   
+   ```
 
    Change into the project directory:
 
-   bash
+   ```bash
    cd Trust-Chain-Quantathon-2.0
-   
+   ```
 
 2. *Install the required dependencies*:
 
@@ -102,41 +105,41 @@ You need to have the following installed on your local development environment:
 
    Navigate to the frontend directory:
 
-   bash
+   ```bash
    cd frontend
-   
+   ```
 
    Install the dependencies:
 
-   bash
+   ```bash
    npm install
-   
+   ```
 
    #### Backend
 
    Open a new terminal (or tab) and navigate to the backend directory:
 
-   bash
+   ```bash
    cd backend
-   
+   ```
 
    Install the backend dependencies:
 
-   bash
+   ```bash
    npm install
-   
+   ```
 
 3. *Configuration*:
-   
-   Create a .env file in the backend directory and add the following environment variables:
 
-   bash
+   Create a `.env` file in the backend directory and add the following environment variables:
+
+   ```bash
    PORT=5000
    MONGO_URI=your_mongodb_connection_string
    JWT_SECRET=your_jwt_secret_key
-   
+   ```
 
-   Replace your_mongodb_connection_string with your actual MongoDB connection string and your_jwt_secret_key with a secure secret key for JWT authentication.
+   Replace `your_mongodb_connection_string` with your actual MongoDB connection string and `your_jwt_secret_key` with a secure secret key for JWT authentication.
 
 ### Running the Application
 
@@ -144,31 +147,31 @@ To start the application, follow the steps for both the *frontend* and *backend*
 
 #### Frontend
 
-Navigate to the \frontend\ directory and run:
+Navigate to the `frontend` directory and run:
 
-bash
+```bash
 npm run dev
+```
 
-
-The frontend will run in development mode and can be accessed at \http://localhost:3000\.
+The frontend will run in development mode and can be accessed at `http://localhost:3000`.
 
 #### Backend
 
-In another terminal window/tab, navigate to the \backend\ directory and start the server:
+In another terminal window/tab, navigate to the `backend` directory and start the server:
 
-bash
+```bash
 node server.js
+```
 
-
-The backend will run on \http://localhost:5000\.
+The backend will run on `http://localhost:5000`.
 
 ### Running Both Servers Simultaneously
 
-Make sure that both the frontend and backend servers are running. You can interact with the application via the frontend UI at \http://localhost:3000\.
+Make sure that both the frontend and backend servers are running. You can interact with the application via the frontend UI at `http://localhost:3000`.
 
 ### Project Structure
 
-bash
+```plaintext
 Trust-Chain-Quantathon-2.0/
 ├── frontend/
 │   ├── src/            # Frontend React source code
@@ -180,7 +183,7 @@ Trust-Chain-Quantathon-2.0/
 │   ├── routes/         # API routes
 │   └── server.js       # Express server configuration
 └── README.md           # Project documentation
-
+```
 
 ### API Endpoints
 
@@ -197,9 +200,9 @@ Trust-Chain-Quantathon-2.0/
 We welcome contributions! To contribute, follow these steps:
 
 1. Fork the repository.
-2. Create a new feature branch (\git checkout -b feature-branch\).
-3. Commit your changes (\git commit -m 'Add some feature'\).
-4. Push to the branch (\git push origin feature-branch\).
+2. Create a new feature branch (`git checkout -b feature-branch`).
+3. Commit your changes (`git commit -m 'Add some feature'`).
+4. Push to the branch (`git push origin feature-branch`).
 5. Open a pull request.
 
 ## License
@@ -207,11 +210,13 @@ We welcome contributions! To contribute, follow these steps:
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## Project Snapshots
+
 ![Snapshot 1](./snapshots/Social%20media/WhatsApp%20Image%202024-10-16%20at%2009.06.24_182365ab.jpg)
 ![Snapshot 2](./snapshots/Social%20media/WhatsApp%20Image%202024-10-16%20at%2009.06.24_763d8ccb.jpg)
 ![Snapshot 3](./snapshots/Social%20media/WhatsApp%20Image%202024-10-16%20at%2009.06.24_8d4713f1.jpg)
 ![Snapshot 4](./snapshots/Social%20media/WhatsApp%20Image%202024-10-16%20at%2009.06.25_7cdae8c2.jpg)
 ![Snapshot 5](./snapshots/Social%20media/WhatsApp%20Image%202024-10-16%20at%2009.08.47_f78fe906.jpg)
+```
 
 
 
