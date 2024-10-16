@@ -1,26 +1,31 @@
 import { AddIcon } from "@chakra-ui/icons";
 import {
-	Button,
-	CloseButton,
-	Flex,
-	FormControl,
-	Image,
-	Input,
-	Modal,
-	ModalBody,
-	ModalCloseButton,
-	ModalContent,
-	ModalFooter,
-	ModalHeader,
-	ModalOverlay,
-	Text,
-	Textarea,
-	useColorModeValue,
-	useDisclosure,
+    Button,
+    CloseButton,
+    Flex,
+    FormControl,
+    Image,
+    Input,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    Text,
+    Textarea,
+    useColorModeValue,
+    useDisclosure,
+    Alert,
+    AlertIcon,
+    AlertTitle,
+    AlertDescription,
 } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import usePreviewImg from "../hooks/usePreviewImg";
 import { BsFillImageFill } from "react-icons/bs";
+import { AiOutlineLoading } from "react-icons/ai"; 
 import { useRecoilState, useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
 import useShowToast from "../hooks/useShowToast";
@@ -30,124 +35,171 @@ import { useParams } from "react-router-dom";
 const MAX_CHAR = 500;
 
 const CreatePost = () => {
-	const { isOpen, onOpen, onClose } = useDisclosure();
-	const [postText, setPostText] = useState("");
-	const { handleImageChange, imgUrl, setImgUrl } = usePreviewImg();
-	const imageRef = useRef(null);
-	const [remainingChar, setRemainingChar] = useState(MAX_CHAR);
-	const user = useRecoilValue(userAtom);
-	const showToast = useShowToast();
-	const [loading, setLoading] = useState(false);
-	const [posts, setPosts] = useRecoilState(postsAtom);
-	const { username } = useParams();
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const [postText, setPostText] = useState("");
+    const { handleImageChange, imgUrl, setImgUrl } = usePreviewImg();
+    const imageRef = useRef(null);
+    const [remainingChar, setRemainingChar] = useState(MAX_CHAR);
+    const user = useRecoilValue(userAtom);
+    const showToast = useShowToast();
+    const [loading, setLoading] = useState(false);
+    const [posts, setPosts] = useRecoilState(postsAtom);
+    const { username } = useParams();
+    const [analyzing, setAnalyzing] = useState(false); 
+    const [alertMessage, setAlertMessage] = useState(""); 
+    const [alertStatus, setAlertStatus] = useState("success"); 
+    const [showAlert, setShowAlert] = useState(false); 
 
-	const handleTextChange = (e) => {
-		const inputText = e.target.value;
+    const handleTextChange = (e) => {
+        const inputText = e.target.value;
 
-		if (inputText.length > MAX_CHAR) {
-			const truncatedText = inputText.slice(0, MAX_CHAR);
-			setPostText(truncatedText);
-			setRemainingChar(0);
-		} else {
-			setPostText(inputText);
-			setRemainingChar(MAX_CHAR - inputText.length);
-		}
-	};
+        if (inputText.length > MAX_CHAR) {
+            const truncatedText = inputText.slice(0, MAX_CHAR);
+            setPostText(truncatedText);
+            setRemainingChar(0);
+        } else {
+            setPostText(inputText);
+            setRemainingChar(MAX_CHAR - inputText.length);
+        }
+    };
 
-	const handleCreatePost = async () => {
-		setLoading(true);
-		try {
-			const res = await fetch("/api/posts/create", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ postedBy: user._id, text: postText, img: imgUrl }),
-			});
+    const handleCreatePost = async () => {
+        setLoading(true);
+        setAnalyzing(true); 
+        try {
+            const res = await fetch("/api/posts/create", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ postedBy: user._id, text: postText, img: imgUrl }),
+            });
 
-			const data = await res.json();
-			if (data.error) {
-				showToast("Error", data.error, "error");
-				return;
-			}
-			showToast("Success", "Post created successfully", "success");
-			if (username === user.username) {
-				setPosts([data, ...posts]);
-			}
-			onClose();
-			setPostText("");
-			setImgUrl("");
-		} catch (error) {
-			showToast("Error", error, "error");
-		} finally {
-			setLoading(false);
-		}
-	};
+            const data = await res.json();
+            if (data.error) {
+                showToast("Error", data.error, "error");
+                return;
+            }
+            
+            
+            if (data.isSensitive) {
+                setAlertMessage("Your post is sensitive and cannot be uploaded.");
+                setAlertStatus("error");
+            } else {
+                setAlertMessage("Your post is non-sensitive, so it was uploaded successfully.");
+                setAlertStatus("success");
+                if (username === user.username) {
+                    setPosts([data, ...posts]);
+                }
+            }
+            
+           
+            setShowAlert(true); 
+            
+            
+            setTimeout(() => {
+                onClose(); 
+                setPostText(""); 
+                setImgUrl(""); 
+                setShowAlert(false); 
+            }, 3000); 
 
-	return (
-		<>
-			<Button
-				position={"fixed"}
-				bottom={10}
-				right={5}
-				bg={useColorModeValue("gray.300", "gray.dark")}
-				onClick={onOpen}
-				size={{ base: "sm", sm: "md" }}
-			>
-				<AddIcon />
-			</Button>
+        } catch (error) {
+            showToast("Error", error, "error");
+        } finally {
+            setLoading(false);
+            setAnalyzing(false); 
+        }
+    };
 
-			<Modal isOpen={isOpen} onClose={onClose}>
-				<ModalOverlay />
+    return (
+        <>
+            <Button
+                position={"fixed"}
+                bottom={10}
+                right={5}
+                bg={useColorModeValue("gray.300", "gray.dark")}
+                onClick={onOpen}
+                size={{ base: "sm", sm: "md" }}
+            >
+                <AddIcon />
+            </Button>
 
-				<ModalContent>
-					<ModalHeader>Create Post</ModalHeader>
-					<ModalCloseButton />
-					<ModalBody pb={6}>
-						<FormControl>
-							<Textarea
-								placeholder='Post content goes here..'
-								onChange={handleTextChange}
-								value={postText}
-							/>
-							<Text fontSize='xs' fontWeight='bold' textAlign={"right"} m={"1"} color={"gray.800"}>
-								{remainingChar}/{MAX_CHAR}
-							</Text>
+            <Modal isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
 
-							<Input type='file' hidden ref={imageRef} onChange={handleImageChange} />
+                <ModalContent>
+                    <ModalHeader>Create Post</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody pb={6}>
+                        <FormControl>
+                            <Textarea
+                                placeholder='Post content goes here..'
+                                onChange={handleTextChange}
+                                value={postText}
+                            />
+                            <Text fontSize='xs' fontWeight='bold' textAlign={"right"} m={"1"} color={"gray.800"}>
+                                {remainingChar}/{MAX_CHAR}
+                            </Text>
 
-							<BsFillImageFill
-								style={{ marginLeft: "5px", cursor: "pointer" }}
-								size={16}
-								onClick={() => imageRef.current.click()}
-							/>
-						</FormControl>
+                            <Input type='file' hidden ref={imageRef} onChange={handleImageChange} />
 
-						{imgUrl && (
-							<Flex mt={5} w={"full"} position={"relative"}>
-								<Image src={imgUrl} alt='Selected img' />
-								<CloseButton
-									onClick={() => {
-										setImgUrl("");
-									}}
-									bg={"gray.800"}
-									position={"absolute"}
-									top={2}
-									right={2}
-								/>
-							</Flex>
-						)}
-					</ModalBody>
+                            <BsFillImageFill
+                                style={{ marginLeft: "5px", cursor: "pointer" }}
+                                size={16}
+                                onClick={() => imageRef.current.click()}
+                            />
+                        </FormControl>
 
-					<ModalFooter>
-						<Button colorScheme='blue' mr={3} onClick={handleCreatePost} isLoading={loading}>
-							Post
-						</Button>
-					</ModalFooter>
-				</ModalContent>
-			</Modal>
-		</>
-	);
+                        {imgUrl && (
+                            <Flex mt={5} w={"full"} position={"relative"}>
+                                <Image src={imgUrl} alt='Selected img' />
+                                <CloseButton
+                                    onClick={() => {
+                                        setImgUrl("");
+                                    }}
+                                    bg={"gray.800"}
+                                    position={"absolute"}
+                                    top={2}
+                                    right={2}
+                                />
+                            </Flex>
+                        )}
+
+                        {analyzing && ( 
+                            <Flex
+                                mt={3}
+                                p={3}
+                                bg='blue.100'
+                                borderRadius='md'
+                                alignItems='center'
+                                justifyContent='center'
+                            >
+                                <AiOutlineLoading style={{ marginRight: "8px" }} color='blue.500' />
+                                <Text fontSize='sm' color='blue.500'>
+                                    AI Analyzing...
+                                </Text>
+                            </Flex>
+                        )}
+
+                        {showAlert && ( 
+                            <Alert status={alertStatus} mt={4}>
+                                <AlertIcon />
+                                <AlertTitle>{alertStatus === "success" ? "Success!" : "Error!"}</AlertTitle>
+                                <AlertDescription>{alertMessage}</AlertDescription>
+                            </Alert>
+                        )}
+                    </ModalBody>
+
+                    <ModalFooter>
+                        <Button colorScheme='blue' mr={3} onClick={handleCreatePost} isLoading={loading}>
+                            Post
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+        </>
+    );
 };
 
 export default CreatePost;
