@@ -1,0 +1,18 @@
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 24px;
+    margin-bottom: 48px;
+    padding: 16px;
+    border: 1px solid white;
+    background: black;
+    box-shadow: 0px 4px 6px rgba(255, 255, 255, 0.3);
+    border-radius: 8px; 
+    padding-top: 12px;
+    padding-bottom: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  
