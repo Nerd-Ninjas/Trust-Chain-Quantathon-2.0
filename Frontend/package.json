@@ -1,5 +1,5 @@
 {
-  "name": "frontend",
+  "name": "threads-yt",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -16,9 +16,7 @@
     "@emotion/styled": "^11.11.0",
     "backend": "file:..",
     "date-fns": "^2.30.0",
-    "esbuild": "^0.24.0",
     "framer-motion": "^10.12.21",
-    "frontend": "file:",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.10.1",
