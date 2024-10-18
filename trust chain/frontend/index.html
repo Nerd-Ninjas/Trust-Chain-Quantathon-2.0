@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Moderation DApp</title>
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.36/dist/web3.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+        img { max-width: 100%; height: auto; }
+        button { padding: 10px 20px; margin: 10px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Moderate the Image</h1>
+    <img id="dynamicImage" src="https://via.placeholder.com/150" alt="Image to moderate">
+    
+    <br>
+    <button id="approveButton">Approve</button>
+    <button id="disapproveButton">Disapprove</button>
+
+    <script src="app.js"></script>
+</body>
+</html>
