@@ -6,19 +6,136 @@
     <title>Image Moderation DApp</title>
     <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.36/dist/web3.min.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
-        img { max-width: 100%; height: auto; }
-        button { padding: 10px 20px; margin: 10px; cursor: pointer; }
+        /* Basic reset and body styles */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            transition: background-color 0.5s, color 0.5s; /* Transition for background and color */
+            color: #333; /* Light mode text color */
+            position: relative; /* For positioning the toggle button */
+            overflow: hidden; /* Prevents overflow from the blurred background */
+        }
+
+        /* Dark mode styles */
+        body.dark-mode {
+            background-color: #181818; /* Dark mode background */
+            color: #ffffff; 
+        }
+
+        /* Background image styling */
+        .background {
+            position: fixed; /* Fixed background */
+            top: 50%; /* Center vertically */
+            left: 50%; /* Center horizontally */
+            width: 300px; /* Set a fixed width for the logo */
+            height: 300px; /* Set a fixed height for the logo */
+            background-image: url('logo.png'); /* Local image */
+            background-size: contain; /* Ensure the logo fits within the defined dimensions */
+            background-repeat: no-repeat; /* Prevent background repetition */
+            background-position: center; /* Center the background image */
+            transform: translate(-50%, -50%); /* Adjust position to truly center it */
+            filter: blur(5px); /* Blur effect */
+            z-index: -1; /* Send to back */
+        }
+        /* Image container styling */
+        .image-container {
+            padding: 20px; /* Padding holder for the image */
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+            
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            display: inline-block; /* Center the container */
+            margin: 20px 0; /* Margin around the container */
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            transition: transform 0.3s; /* Animation for image */
+        }
+
+        img:hover {
+            transform: scale(1.05); /* Image scale effect on hover */
+        }
+
+        /* Button styles */
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.2s; /* Transition for buttons */
+        }
+
+        button:hover {
+            transform: scale(1.1); /* Scale effect on hover */
+        }
+
+        /* Light mode button styles */
+        button.approve {
+            background-color: #4CAF50; /* Green */
+            color: white;
+        }
+
+        button.disapprove {
+            background-color: #F44336; /* Red */
+            color: white;
+        }
+
+        /* Dark mode button styles */
+        body.dark-mode button.approve {
+            background-color: #388E3C; /* Dark green */
+        }
+
+        body.dark-mode button.disapprove {
+            background-color: #D32F2F; /* Dark red */
+        }
+
+        /* Toggle button style */
+        #toggleButton {
+            background-color: transparent; /* Transparent background */
+            border: none; /* No border */
+            position: absolute; /* Position it in the corner */
+            top: 20px; /* Position from the top */
+            right: 20px; /* Position from the right */
+            cursor: pointer; /* Pointer cursor */
+            font-size: 24px; /* Icon size */
+            color: #007BFF; /* Color for the icon */
+            transition: color 0.3s; /* Transition for color */
+        }
+
+        #toggleButton:hover {
+            color: #0056b3; /* Darker color on hover */
+        }
     </style>
 </head>
 <body>
-    <h1>Moderate the Image</h1>
-    <img id="dynamicImage" src="https://via.placeholder.com/150" alt="Image to moderate">
+    <div class="background"></div> <!-- Background with blurred image -->
     
+    <h1>Moderate the Image</h1>
+    
+    <div class="image-container">
+        <img id="dynamicImage" src="https://via.placeholder.com/150" alt="Image to moderate">
+    </div>
+
     <br>
-    <button id="approveButton">Approve</button>
-    <button id="disapproveButton">Disapprove</button>
+    <button id="approveButton" class="approve">Approve</button>
+    <button id="disapproveButton" class="disapprove">Disapprove</button>
+    
+    <!-- Toggle button for dark/light mode -->
+    <button id="toggleButton">🌙</button> <!-- Moon icon for dark mode toggle -->
 
     <script src="app.js"></script>
+    <script>
+        // JavaScript for toggling dark/light mode
+        const toggleButton = document.getElementById('toggleButton');
+        toggleButton.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            toggleButton.innerHTML = document.body.classList.contains('dark-mode') ? '🌞' : '🌙'; // Change icon
+        });
+    </script>
 </body>
 </html>
