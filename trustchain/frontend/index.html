@@ -38,21 +38,29 @@
             filter: blur(5px); /* Blur effect */
             z-index: -1; /* Send to back */
         }
-        /* Image container styling */
+
         .image-container {
-            padding: 20px; /* Padding holder for the image */
-            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
-            
+            width: fit-content;
+            height: fit-content; /* Fixed height for the image container */
             border-radius: 8px; /* Rounded corners */
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
             display: inline-block; /* Center the container */
             margin: 20px 0; /* Margin around the container */
+            z-index: 2;
+            overflow: hidden; /* Ensure no overflow */
+            position: relative; /* For positioning the image */
         }
 
         img {
-            max-width: 100%;
-            height: auto;
+            max-width: none; /* Allow the image to keep its raw size */
+            height: auto; /* Maintain aspect ratio */
+            display: block; /* Prevent inline spacing issues */
+            margin: auto; /* Center the image */
             transition: transform 0.3s; /* Animation for image */
+        }
+
+        img.hidden {
+            display: none; /* Hide image initially */
         }
 
         img:hover {
@@ -118,7 +126,7 @@
     <h1>Moderate the Image</h1>
     
     <div class="image-container">
-        <img id="dynamicImage" src="https://via.placeholder.com/150" alt="Image to moderate">
+        <img id="dynamicImage" class="hidden" src="image.webp" alt="Image to moderate"> <!-- Main image inside the container -->
     </div>
 
     <br>
@@ -136,6 +144,24 @@
             document.body.classList.toggle('dark-mode');
             toggleButton.innerHTML = document.body.classList.contains('dark-mode') ? '🌞' : '🌙'; // Change icon
         });
+    
+        // Initialize the refresh count
+        const refreshCountKey = 'refreshCount';
+        let refreshCount = localStorage.getItem(refreshCountKey) ? parseInt(localStorage.getItem(refreshCountKey)) : 0;
+    
+        // Increment the refresh count on each load
+        refreshCount += 1;
+        localStorage.setItem(refreshCountKey, refreshCount);
+    
+        // Show the image after the third refresh and reset the count
+        window.onload = function() {
+            const dynamicImage = document.getElementById('dynamicImage');
+            if (refreshCount >= 3) {
+                dynamicImage.classList.remove('hidden'); // Show the image
+                localStorage.removeItem(refreshCountKey); // Reset the refresh count after the image is shown
+            }
+        };
     </script>
+    
 </body>
 </html>
